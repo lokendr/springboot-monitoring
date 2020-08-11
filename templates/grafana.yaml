@@ -82,7 +82,7 @@ objects:
     namespace: "${NAMESPACE}"
   stringData:
     session_secret: "${SESSION_SECRET}="
-- apiVersion: apps/v1beta1
+- apiVersion: apps/v1
   kind: StatefulSet
   metadata:
     labels:
@@ -124,6 +124,11 @@ objects:
           - -client-secret-file=/var/run/secrets/kubernetes.io/serviceaccount/token
           - -cookie-secret-file=/etc/proxy/secrets/session_secret
           - -skip-auth-regex=^/metrics
+          - -skip-auth-regex=^/graph.*
+          - -skip-auth-regex=^/targets
+          - -skip-auth-regex=^/status
+          - -skip-auth-regex=^/config
+          - -skip-auth-regex=^/
           volumeMounts:
           - mountPath: /etc/tls/private
             name: gf-tls
